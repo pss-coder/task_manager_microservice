@@ -21,11 +21,11 @@ jobs:
       - name: Build react-app image
         working-directory: ./frontend-client
         run: |
-          docker build -t psscoder/task-manager-app:frontend-client ./react-app
+          docker build -t psscoder/task-manager-app:frontend-client ./frontend-client
 
       - name: Build api-server image
         run: |
-          docker build -t psscoder/task-manager-app:api-server ./api-server
+          docker build -t psscoder/task-manager-app:api-server ./server
 
       - name: Build mongo image
         run: |
