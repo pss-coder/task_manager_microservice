@@ -35,13 +35,13 @@ jobs:
         run: |
           docker pull mongo:3.6.19-xenial
           # Tag the image with the full repository path and tag
-          docker tag mongo:3.6.19-xenial pss_coder/task-manager-app:3.6.19-xenial
+          docker tag mongo:3.6.19-xenial psscoder/task-manager-app:3.6.19-xenial
       
       # Push the MongoDB Docker image
       - name: Push MongoDB Docker image
         run: |
           # Push the tagged image to Docker Hub
-          docker push pss_coder/task-manager-app:3.6.19-xenial
+          docker push psscoder/task-manager-app:3.6.19-xenial
 
       # Push the frontend-client Docker image
       - name: Push frontend-client and server Docker image
