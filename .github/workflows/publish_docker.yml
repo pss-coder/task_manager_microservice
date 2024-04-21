@@ -22,33 +22,9 @@ jobs:
       - name: Build frontend-client Docker image
         working-directory: ./frontend-client
         run: |
-          docker build -t react-app:latest -f Dockerfile .
+          docker build -t psscoder/task-manager:app:client-${{github.run_number}} .
       
       # Push the frontend-client Docker image
       - name: Push frontend-client Docker image
         run: |
-          docker tag react-app:latest ${{ secrets.DOCKER_USERNAME }}/react-app:latest
-          docker push ${{ secrets.DOCKER_USERNAME }}/react-app:latest
-
-      # Build the Docker image for the server
-      - name: Build server Docker image
-        working-directory: ./server
-        run: |
-          docker build -t api-server:latest -f Dockerfile .
-      
-      # Push the server Docker image
-      - name: Push server Docker image
-        run: |
-          docker tag api-server:latest ${{ secrets.DOCKER_USERNAME }}/api-server:latest
-          docker push ${{ secrets.DOCKER_USERNAME }}/api-server:latest
-
-      # Build the Docker image for MongoDB
-      - name: Build MongoDB Docker image
-        run: |
-          docker pull mongo:3.6.19-xenial
-          docker tag mongo:3.6.19-xenial ${{ secrets.DOCKER_USERNAME }}/mongo:3.6.19-xenial
-
-      # Push the MongoDB Docker image
-      - name: Push MongoDB Docker image
-        run: |
-          docker push ${{ secrets.DOCKER_USERNAME }}/mongo:3.6.19-xenial
+          docker push psscoder/task-manager:app:client-${{github.run_number}}
