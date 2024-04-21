@@ -22,9 +22,9 @@ jobs:
       - name: Build frontend-client Docker image
         working-directory: ./frontend-client
         run: |
-          docker build -t psscoder/task-manager:app:client-${{github.run_number}} .
+          docker build -t react-app .
 
       # Push the frontend-client Docker image
       - name: Push frontend-client Docker image
         run: |
-          docker push psscoder/task-manager:app:client-${{github.run_number}}
+          docker push psscoder/task-manager:app:react-app
