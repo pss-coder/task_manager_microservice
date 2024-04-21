@@ -12,6 +12,12 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
     # Build the Docker image for the frontend-client
       - name: Build frontend-client Docker image
         working-directory: ./frontend-client
@@ -24,19 +30,21 @@ jobs:
         run: |
           docker build -t psscoder/task-manager-app:api-server .
 
-      - name: Build and push mongo image
+      # Build the MongoDB Docker image
+      - name: Build MongoDB Docker image
         run: |
-          docker build -t pss_coder/task-manager-app:mongo:3.6.19-xenial mongo:3.6.19-xenial
-
-      - name: Log in to Docker Hub
-        uses: docker/login-action@v2
-        with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
+          docker pull mongo:3.6.19-xenial
+          # Tag the image with the full repository path and tag
+          docker tag mongo:3.6.19-xenial pss_coder/task-manager-app:3.6.19-xenial
+      
+      # Push the MongoDB Docker image
+      - name: Push MongoDB Docker image
+        run: |
+          # Push the tagged image to Docker Hub
+          docker push pss_coder/task-manager-app:3.6.19-xenial
 
       # Push the frontend-client Docker image
-      - name: Push frontend-client Docker image
+      - name: Push frontend-client and server Docker image
         run: |
           docker push psscoder/task-manager-app:react-app
           docker push psscoder/task-manager-app:api-server
-          docker push pss_coder/task-manager-app:mongo:3.6.19-xenial
