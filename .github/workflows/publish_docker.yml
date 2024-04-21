@@ -18,14 +18,15 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
+      - name: Build api-server image
+        working-directory: ./server
+        run: |
+          docker build -t psscoder/task-manager-app:api-server
+
       - name: Build react-app image
         working-directory: ./frontend-client
         run: |
-          docker build -t psscoder/task-manager-app:frontend-client ./frontend-client
-
-      - name: Build api-server image
-        run: |
-          docker build -t psscoder/task-manager-app:api-server ./server
+          docker build -t psscoder/task-manager-app:frontend-client
 
       - name: Build mongo image
         run: |
