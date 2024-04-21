@@ -38,7 +38,10 @@ export default function TaskCard({ onEdit, onDelete, id, title, content, dueDate
       onClick={() => setIsEditTaskOpen(true)}>Edit</button>
 
       <button className="bg-red-500 hover:bg-red-600 text-white py-1 px-2 rounded focus:outline-none" 
-      onClick={() => onDelete(id)}>Delete</button>
+      onClick={() => {
+        console.log(id)
+        onDelete(id)
+      }}>Delete</button>
     </div>
   </div>
   <p className="text-gray-700 mb-4">{content}</p>

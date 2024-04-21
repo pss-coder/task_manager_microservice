@@ -7,7 +7,7 @@ import SearchPalette from './SearchPalette';
 import apis from '../api';
 
 function dateConvert(date) {
-console.log(date)
+// console.log(date)
 // Extract year, month, and day from the date object
 const year = date.getFullYear();
 const month = String(date.getMonth() + 1).padStart(2, '0'); // Month is zero-based, so add 1
@@ -37,19 +37,8 @@ export default function App() {
     apis.getAllTask().then(response => {
       const data = response.data
       if (data.success) {
-//        console.log(data.data)
-        setTasks(data.data.map(task => {
-          return {
-            _id: task._id,
-            title: task.title,
-            description: task.description,
-
-            due_date: dateConvert(new Date(task.due_date)), // date
-
-            priority: task.priority,
-            is_completed: task.is_completed
-          }
-        }))
+       console.log(data.data)
+        setTasks(data.data)
       } else {
         setTasks([])
       }
@@ -127,10 +116,12 @@ export default function App() {
   function addTask(newTask) {
 
     apis.addTask(newTask).then(res => {
-      
       if (res.data.success) {
         console.log("task added")
         setTasks(prevTasks => {
+          const id = res.data.id
+          newTask._id = id
+          console.log('newly added task', newTask)
           return [...prevTasks, newTask];
         });
       } else {
@@ -168,6 +159,8 @@ export default function App() {
   
   function deleteTask(id) {
 
+    console.log(id)
+
     apis.deleteTaskById(id).then(response => {
       if (response.data.success) {
         console.log("task deleted")
@@ -188,8 +181,10 @@ export default function App() {
 
   
   function toggleTaskComplete(id) {
+    console.log(id)
 
-    const selectedTask = tasks.filter(task => task._id === id)
+    if (id) {
+      const selectedTask = tasks.filter(task => task._id === id)
 
     apis.toggleTaskCompletion(id, {is_completed:!selectedTask[0].is_completed }).then(response => {
       console.log(response)
@@ -209,6 +204,9 @@ export default function App() {
         alert("Failed to Toggle Task completion, please ensure you are have a working network connection.")
       }
     })
+    }
+
+    
 
       
 
@@ -282,17 +280,20 @@ export default function App() {
                
 
           <div className='flex flex-wrap'>
-          {filteredTasks.map((task, index) => {
+          {filteredTasks.map((task,index) => {
                 return (
                   <TaskCard
                     key = {index}
                     id={task._id}
                     title = {task.title}
                     content = {task.description}
-                    dueDate={ task.due_date}
+                    dueDate={ dateConvert(new Date(task.due_date))}
                     priority={task.priority}
                     isCompleted={task.is_completed}
-                    toggleTaskComplete = {() => toggleTaskComplete(task._id)}
+                    toggleTaskComplete = {() => {
+                      console.log(task)
+                      toggleTaskComplete(task._id)
+                    }}
                     onEdit={editTask}
                     onDelete={deleteTask}
                    />

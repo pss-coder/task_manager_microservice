@@ -6,6 +6,7 @@ export default function EditTaskDialog({open, setOpen, onEdit, id ,title, conten
   //const [open, setOpen] = useState(true)
 
   const [task, setTask] = useState({
+    _id: id,
     title: title,
     description: content,
     due_date: dueDate,

@@ -6,7 +6,7 @@ const db = require('./db')
 const taskRouter = require('./routes/task-router')
 
 const app = express()
-const port = 8080
+const port = 8001
 
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(cors())

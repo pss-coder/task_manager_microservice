@@ -10,7 +10,7 @@ services:
   api-server:
     image: api-server
     ports:
-      - "8080:8080"
+      - "8001:8001"
     networks:
       - task-manager-app
     depends_on:

@@ -56,6 +56,7 @@ updateTask = async (req, res) => {
 }
 
 updateTaskCompletion = async (req, res) => {
+  console.log(req.body)
     try {
         const updatedItem = await Task.findByIdAndUpdate(
           req.params.id,
