@@ -18,23 +18,35 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: Build api-server image
-        working-directory: ./server
+    # Build the Docker image for the frontend-client
+      - name: Build frontend-client Docker image
         run: |
-          docker build -t psscoder/task-manager-app:api-server
+          docker build -t react-app:latest -f frontend-client/Dockerfile .
+      
+      # Push the frontend-client Docker image
+      - name: Push frontend-client Docker image
+        run: |
+          docker tag react-app:latest ${{ secrets.DOCKER_USERNAME }}/react-app:latest
+          docker push ${{ secrets.DOCKER_USERNAME }}/react-app:latest
 
-      - name: Build react-app image
-        working-directory: ./frontend-client
+      # Build the Docker image for the server
+      - name: Build server Docker image
         run: |
-          docker build -t psscoder/task-manager-app:frontend-client
+          docker build -t api-server:latest -f server/Dockerfile .
+      
+      # Push the server Docker image
+      - name: Push server Docker image
+        run: |
+          docker tag api-server:latest ${{ secrets.DOCKER_USERNAME }}/api-server:latest
+          docker push ${{ secrets.DOCKER_USERNAME }}/api-server:latest
 
-      - name: Build mongo image
+      # Build the Docker image for MongoDB
+      - name: Build MongoDB Docker image
         run: |
-          docker build -t pss_coder/task-manager-app:3.6.19-xenial mongo:3.6.19-xenial
+          docker pull mongo:3.6.19-xenial
+          docker tag mongo:3.6.19-xenial ${{ secrets.DOCKER_USERNAME }}/mongo:3.6.19-xenial
 
-      # Push the Docker images to Docker Hub
-      - name: Push Docker Images to Docker Hub
+      # Push the MongoDB Docker image
+      - name: Push MongoDB Docker image
         run: |
-          docker push psscoder/task-manager-app:frontend-client-${{github.run_number}}
-          docker push psscoder/task-manager-app:api-server-${{github.run_number}}
-          docker push psscoder/task-manager-app:3.6.19-xenial-${{github.run_number}}
+          docker push ${{ secrets.DOCKER_USERNAME }}/mongo:3.6.19-xenial
