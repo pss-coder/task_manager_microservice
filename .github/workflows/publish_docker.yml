@@ -21,7 +21,7 @@ jobs:
     # Build the Docker image for the frontend-client
       - name: Build frontend-client Docker image
         run: |
-          docker build -t react-app:latest -f frontend-client/Dockerfile .
+          docker build -t react-app:latest -f ./frontend-client/Dockerfile .
       
       # Push the frontend-client Docker image
       - name: Push frontend-client Docker image
@@ -32,7 +32,7 @@ jobs:
       # Build the Docker image for the server
       - name: Build server Docker image
         run: |
-          docker build -t api-server:latest -f server/Dockerfile .
+          docker build -t api-server:latest -f ./api-server/Dockerfile .
       
       # Push the server Docker image
       - name: Push server Docker image
