@@ -20,6 +20,7 @@ jobs:
 
     # Build the Docker image for the frontend-client
       - name: Build frontend-client Docker image
+        working-directory: ./frontend-client
         run: |
           docker build -t react-app:latest -f ./frontend-client/Dockerfile .
       
@@ -31,6 +32,7 @@ jobs:
 
       # Build the Docker image for the server
       - name: Build server Docker image
+        working-directory: ./server
         run: |
           docker build -t api-server:latest -f ./api-server/Dockerfile .
       
