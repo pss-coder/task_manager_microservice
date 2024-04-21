@@ -5,3 +5,5 @@
 2. execute ```make build```
 3. execute ``make run``
 4. open browser and enter URL: ```localhost:3000/```
+
+Time Taken to build: 3-4 Hours
