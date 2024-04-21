@@ -12,19 +12,19 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Log in to Docker Hub
-        uses: docker/login-action@v2
-        with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
-
     # Build the Docker image for the frontend-client
       - name: Build frontend-client Docker image
         working-directory: ./frontend-client
         run: |
           docker build -t react-app .
 
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
       # Push the frontend-client Docker image
       - name: Push frontend-client Docker image
         run: |
-          docker push psscoder/task-manager:app:react-app
+          docker push psscoder/task-manager-app:react-app
