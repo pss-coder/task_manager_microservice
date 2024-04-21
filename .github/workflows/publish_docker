@@ -1,0 +1,39 @@
+name: Deploy to Docker Hub
+
+on:
+  push:
+    branches:
+      - main  # Trigger the action on pushes to the main branch
+
+jobs:
+  build_and_push:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Build react-app image
+        working-directory: ./frontend-client
+        run: |
+          docker build -t psscoder/task-manager-app:frontend-client ./react-app
+
+      - name: Build api-server image
+        run: |
+          docker build -t psscoder/task-manager-app:api-server ./api-server
+
+      - name: Build mongo image
+        run: |
+          docker build -t pss_coder/task-manager-app:3.6.19-xenial mongo:3.6.19-xenial
+
+      # Push the Docker images to Docker Hub
+      - name: Push Docker Images to Docker Hub
+        run: |
+          docker push psscoder/task-manager-app:frontend-client-${{github.run_number}}
+          docker push psscoder/task-manager-app:api-server-${{github.run_number}}
+          docker push psscoder/task-manager-app:3.6.19-xenial-${{github.run_number}}
