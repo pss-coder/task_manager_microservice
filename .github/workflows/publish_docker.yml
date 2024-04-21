@@ -23,7 +23,7 @@ jobs:
         working-directory: ./frontend-client
         run: |
           docker build -t psscoder/task-manager:app:client-${{github.run_number}} .
-      
+
       # Push the frontend-client Docker image
       - name: Push frontend-client Docker image
         run: |
